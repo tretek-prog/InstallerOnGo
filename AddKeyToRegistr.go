@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/sys/windows/registry"
+	"golang.org/x/sys/windows/registry"  // Вот эта зараза несколько дней мозг выносила
 	"log"
 	"os"
 	"path/filepath"
